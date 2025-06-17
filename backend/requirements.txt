@@ -1,0 +1,25 @@
+# Django y Django REST Framework
+Django==4.2.7
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.0
+django-cors-headers==4.3.0
+django-filter==23.3
+qrcode==8.2
+
+# Base de datos
+psycopg2==2.9.9
+dj-database-url==2.1.0
+
+# Servidor WSGI
+gunicorn==21.2.0
+
+# Utilidades
+pillow==10.1.0
+python-dotenv==1.0.0
+
+# Documentación API
+drf-yasg==1.21.7
+
+# Almacenamiento (opcional para S3)
+# django-storages==1.14.2
+# boto3==1.28.64
