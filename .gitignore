@@ -48,12 +48,14 @@ yarn-error.log*
 # Archivos de coverage
 coverage/
 
+# Django static files
+backend/static/
+
 # Archivos de caché
 .cache/
 
 # Archivos de Docker
 *.dockerignore
-Dockerfile
 
 # Archivos de Python
 *.pyc
