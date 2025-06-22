@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import api from '@/lib/api';
 
 interface Prenda {
@@ -48,7 +49,10 @@ export const Prendas = () => {
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Prendas</h1>
-        <Link to="/prendas/nueva" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <Link
+          to="/prendas/nueva"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
           Nueva Prenda
         </Link>
       </div>
@@ -56,28 +60,57 @@ export const Prendas = () => {
         <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gray-200 dark:bg-gray-700">
             <tr>
-              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Nombre</th>
-              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Descripción</th>
-              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Precio</th>
-              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">Acciones</th>
+              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Nombre
+              </th>
+              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Descripción
+              </th>
+              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Precio
+              </th>
+              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Acciones
+              </th>
             </tr>
           </thead>
           <tbody>
             {prendas.length > 0 ? (
               prendas.map((prenda) => (
-                <tr key={prenda.id} className="border-b border-gray-200 dark:border-gray-700">
-                  <td className="py-2 px-4 text-sm text-gray-900 dark:text-gray-100">{prenda.nombre}</td>
-                  <td className="py-2 px-4 text-sm text-gray-900 dark:text-gray-100">{prenda.descripcion}</td>
-                  <td className="py-2 px-4 text-sm text-gray-900 dark:text-gray-100">{prenda.precio}</td>
+                <tr
+                  key={prenda.id}
+                  className="border-b border-gray-200 dark:border-gray-700"
+                >
+                  <td className="py-2 px-4 text-sm text-gray-900 dark:text-gray-100">
+                    {prenda.nombre}
+                  </td>
+                  <td className="py-2 px-4 text-sm text-gray-900 dark:text-gray-100">
+                    {prenda.descripcion}
+                  </td>
+                  <td className="py-2 px-4 text-sm text-gray-900 dark:text-gray-100">
+                    {prenda.precio}
+                  </td>
                   <td className="py-2 px-4 text-sm">
-                    <Link to={`/prendas/editar/${prenda.id}`} className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-200 mr-2">Editar</Link>
-                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200">Eliminar</button>
+                    <Link
+                      to={`/prendas/editar/${prenda.id}`}
+                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-200 mr-2"
+                    >
+                      Editar
+                    </Link>
+                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-200">
+                      Eliminar
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="py-4 text-center text-gray-500 dark:text-gray-400">No hay prendas disponibles.</td>
+                <td
+                  colSpan={4}
+                  className="py-4 text-center text-gray-500 dark:text-gray-400"
+                >
+                  No hay prendas disponibles.
+                </td>
               </tr>
             )}
           </tbody>

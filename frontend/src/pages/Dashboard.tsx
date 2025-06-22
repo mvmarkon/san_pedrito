@@ -1,18 +1,20 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Bar, Doughnut } from 'react-chartjs-2'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { Button } from '@/components/ui/button';
+import { formatCurrency } from '@/lib/utils';
+
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
+  ArcElement,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js'
-import { Button } from '@/components/ui/button'
-import { formatCurrency } from '@/lib/utils'
+} from 'chart.js';
+import { Bar, Doughnut } from 'react-chartjs-2';
 
 // Registrar componentes de Chart.js
 ChartJS.register(
@@ -22,29 +24,69 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
-)
+  ArcElement,
+);
 
 const Dashboard = () => {
   // Estado para datos de ejemplo (en una app real, esto vendría de una API)
   const [ventasRecientes] = useState([
-    { id: 1, cliente: 'María López', fecha: '2023-11-15', total: 5600, estado: 'Completada' },
-    { id: 2, cliente: 'Juan Pérez', fecha: '2023-11-14', total: 3200, estado: 'Pendiente' },
-    { id: 3, cliente: 'Ana García', fecha: '2023-11-13', total: 4800, estado: 'Completada' },
-    { id: 4, cliente: 'Carlos Rodríguez', fecha: '2023-11-12', total: 2900, estado: 'Completada' },
-  ])
+    {
+      id: 1,
+      cliente: 'María López',
+      fecha: '2023-11-15',
+      total: 5600,
+      estado: 'Completada',
+    },
+    {
+      id: 2,
+      cliente: 'Juan Pérez',
+      fecha: '2023-11-14',
+      total: 3200,
+      estado: 'Pendiente',
+    },
+    {
+      id: 3,
+      cliente: 'Ana García',
+      fecha: '2023-11-13',
+      total: 4800,
+      estado: 'Completada',
+    },
+    {
+      id: 4,
+      cliente: 'Carlos Rodríguez',
+      fecha: '2023-11-12',
+      total: 2900,
+      estado: 'Completada',
+    },
+  ]);
 
   // Datos para el gráfico de barras
   const ventasPorMesData = {
-    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+    labels: [
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dic',
+    ],
     datasets: [
       {
         label: 'Ventas mensuales',
-        data: [12000, 19000, 15000, 25000, 22000, 30000, 29000, 35000, 32000, 38000, 41000, 0],
+        data: [
+          12000, 19000, 15000, 25000, 22000, 30000, 29000, 35000, 32000, 38000,
+          41000, 0,
+        ],
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       },
     ],
-  }
+  };
 
   // Datos para el gráfico circular
   const ventasPorCategoriaData = {
@@ -63,7 +105,7 @@ const Dashboard = () => {
         borderWidth: 1,
       },
     ],
-  }
+  };
 
   // Opciones para los gráficos
   const barOptions = {
@@ -77,7 +119,7 @@ const Dashboard = () => {
         text: 'Ventas Mensuales 2023',
       },
     },
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -92,7 +134,9 @@ const Dashboard = () => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border bg-card p-6 shadow-sm">
           <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="tracking-tight text-sm font-medium">Ventas Totales</h3>
+            <h3 className="tracking-tight text-sm font-medium">
+              Ventas Totales
+            </h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -107,12 +151,16 @@ const Dashboard = () => {
             </svg>
           </div>
           <div className="text-2xl font-bold">{formatCurrency(254890)}</div>
-          <p className="text-xs text-muted-foreground">+20.1% desde el mes pasado</p>
+          <p className="text-xs text-muted-foreground">
+            +20.1% desde el mes pasado
+          </p>
         </div>
 
         <div className="rounded-lg border bg-card p-6 shadow-sm">
           <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="tracking-tight text-sm font-medium">Prendas Vendidas</h3>
+            <h3 className="tracking-tight text-sm font-medium">
+              Prendas Vendidas
+            </h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -129,12 +177,16 @@ const Dashboard = () => {
             </svg>
           </div>
           <div className="text-2xl font-bold">145</div>
-          <p className="text-xs text-muted-foreground">+15% desde el mes pasado</p>
+          <p className="text-xs text-muted-foreground">
+            +15% desde el mes pasado
+          </p>
         </div>
 
         <div className="rounded-lg border bg-card p-6 shadow-sm">
           <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <h3 className="tracking-tight text-sm font-medium">Clientes Nuevos</h3>
+            <h3 className="tracking-tight text-sm font-medium">
+              Clientes Nuevos
+            </h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -150,7 +202,9 @@ const Dashboard = () => {
             </svg>
           </div>
           <div className="text-2xl font-bold">12</div>
-          <p className="text-xs text-muted-foreground">+7% desde el mes pasado</p>
+          <p className="text-xs text-muted-foreground">
+            +7% desde el mes pasado
+          </p>
         </div>
 
         <div className="rounded-lg border bg-card p-6 shadow-sm">
@@ -170,7 +224,9 @@ const Dashboard = () => {
             </svg>
           </div>
           <div className="text-2xl font-bold">8</div>
-          <p className="text-xs text-muted-foreground">Prendas con stock crítico</p>
+          <p className="text-xs text-muted-foreground">
+            Prendas con stock crítico
+          </p>
         </div>
       </div>
 
@@ -211,7 +267,9 @@ const Dashboard = () => {
                 <tr key={venta.id} className="border-b hover:bg-muted/50">
                   <td className="p-2">{venta.id}</td>
                   <td className="p-2">{venta.cliente}</td>
-                  <td className="p-2">{new Date(venta.fecha).toLocaleDateString()}</td>
+                  <td className="p-2">
+                    {new Date(venta.fecha).toLocaleDateString()}
+                  </td>
                   <td className="p-2">{formatCurrency(venta.total)}</td>
                   <td className="p-2">
                     <span
@@ -236,7 +294,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
