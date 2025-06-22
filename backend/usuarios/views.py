@@ -13,7 +13,9 @@ from .serializers import (
     PerfilUsuarioSerializer
 )
 
+
 Usuario = get_user_model()
+
 
 class IsAdminOrReadOnly(permissions.BasePermission):
     """Permiso personalizado para permitir solo a administradores crear, actualizar o eliminar usuarios."""
@@ -29,6 +31,20 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     """API para gestionar usuarios"""
     queryset = Usuario.objects.all().order_by('apellido', 'nombre')
     permission_classes = [IsAdminOrReadOnly]
+    
+    # @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
+    # def register(self, request):
+    #     """Endpoint para registro de nuevos usuarios (clientes)"""
+    #     # Forzar el rol de cliente para nuevos registros
+    #     request.data._mutable = True
+    #     request.data['rol'] = 'CLIENTE'
+    #     request.data._mutable = False
+        
+    #     serializer = UsuarioCreateSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         user = serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def get_serializer_class(self):
         if self.action == 'create':

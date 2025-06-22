@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/prendas/', include('prendas.urls')),
     path('api/clientes/', include('clientes.urls')),
     path('api/ventas/', include('ventas.urls')),
+    path('api/usuarios/', include('usuarios.urls')),
     
     # Autenticación
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

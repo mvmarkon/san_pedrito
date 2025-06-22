@@ -1,7 +1,7 @@
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q, Count, Sum
 from .models import Cliente, Contacto
@@ -17,12 +17,16 @@ from .filters import ClienteFilter, ContactoFilter
 class ClienteViewSet(viewsets.ModelViewSet):
     """ViewSet para gestionar clientes"""
     queryset = Cliente.objects.all()
-    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = ClienteFilter
     search_fields = ['nombre', 'apellido', 'email', 'telefono', 'numero_documento']
     ordering_fields = ['apellido', 'nombre', 'fecha_registro', 'ultima_actualizacion']
     ordering = ['apellido', 'nombre']
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny()]
+        return [IsAuthenticated()]
     
     def get_serializer_class(self):
         if self.action == 'list':

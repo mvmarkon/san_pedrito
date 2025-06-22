@@ -1,26 +1,33 @@
-import { useState } from 'react'
-import api from '@/lib/api'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useToast } from '@/components/ui/use-toast'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import RegisterForm from '@/components/RegisterForm';
+import api from '@/lib/api';
+import { z } from 'zod';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 // Esquema de validación
 const loginSchema = z.object({
   email: z.string().email({ message: 'Ingrese un email válido' }),
-  password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres' }),
-})
+  password: z
+    .string()
+    .min(6, { message: 'La contraseña debe tener al menos 6 caracteres' }),
+});
 
-type LoginFormValues = z.infer<typeof loginSchema>
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
-  const navigate = useNavigate()
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -32,42 +39,42 @@ const Login = () => {
       email: '',
       password: '',
     },
-  })
+  });
 
   const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const response = await api.post('/token/', {
         email: data.email,
         password: data.password,
-      })
+      });
 
-      localStorage.setItem('token', response.data.access)
+      localStorage.setItem('token', response.data.access);
 
       toast({
         title: 'Inicio de sesión exitoso',
         description: 'Bienvenido/a a San Pedrito',
-      })
-      
-      navigate('/')
+      });
+
+      navigate('/');
     } catch (error) {
-      console.error('Error de login:', error)
-      let errorMessage = 'Credenciales incorrectas. Intente nuevamente.'
+      console.error('Error de login:', error);
+      let errorMessage = 'Credenciales incorrectas. Intente nuevamente.';
       if (error.response && error.response.data && error.response.data.detail) {
-        errorMessage = error.response.data.detail
+        errorMessage = error.response.data.detail;
       } else if (error.message) {
-        errorMessage = error.message
+        errorMessage = error.message;
       }
       toast({
         variant: 'destructive',
         title: 'Error de inicio de sesión',
         description: errorMessage,
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
@@ -77,6 +84,22 @@ const Login = () => {
           <p className="text-sm text-muted-foreground">
             Ingrese sus credenciales para acceder al sistema
           </p>
+          <Dialog open={isRegisterDialogOpen} onOpenChange={setIsRegisterDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="link" className="px-0">
+                ¿No tienes cuenta? Regístrate aquí.
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Registrar nuevo usuario</DialogTitle>
+                <DialogDescription>
+                  Crea una cuenta para acceder a San Pedrito.
+                </DialogDescription>
+              </DialogHeader>
+              <RegisterForm onSuccess={() => setIsRegisterDialogOpen(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="grid gap-6">
@@ -95,7 +118,9 @@ const Login = () => {
                   {...register('email')}
                 />
                 {errors.email && (
-                  <p className="text-sm text-destructive">{errors.email.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 
@@ -118,7 +143,9 @@ const Login = () => {
                   {...register('password')}
                 />
                 {errors.password && (
-                  <p className="text-sm text-destructive">{errors.password.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
 
@@ -147,28 +174,30 @@ const Login = () => {
               Facebook
             </Button>
           </div>
+
+          <p className="px-8 text-center text-sm text-muted-foreground">
+            Al registrarte, aceptas nuestros{' '}
+            <a
+              href="#"
+              className="underline underline-offset-4 hover:text-primary"
+            >
+              Términos de servicio
+            </a>{' '}
+            y{' '}
+            <a
+              href="#"
+              className="underline underline-offset-4 hover:text-primary"
+            >
+              Política de privacidad
+            </a>
+            .
+          </p>
         </div>
 
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          Al continuar, aceptas nuestros{' '}
-          <a
-            href="#"
-            className="underline underline-offset-4 hover:text-primary"
-          >
-            Términos de servicio
-          </a>{' '}
-          y{' '}
-          <a
-            href="#"
-            className="underline underline-offset-4 hover:text-primary"
-          >
-            Política de privacidad
-          </a>
-          .
-        </p>
+
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
